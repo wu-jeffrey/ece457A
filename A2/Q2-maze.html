@@ -25,6 +25,14 @@
     .path {
       background-color: red;
     }
+
+    .start,
+    .end {
+      background-color: blue;
+      text-align: center;
+      vertical-align: center;
+      color: white;
+    }
   </style>
 </head>
 
@@ -44,6 +52,9 @@
 
         <label for="fname">End Y</label>
         <input id="Ey" name="Ey" value='24' type="number">
+
+        <label for="volume">Iteration Delay</label>
+        <input type="range" id="speed" name="speed" min="2" max="500" value="5">
       </div>
       <hr />
       <button onclick="runSearch('DFS')">DFS</button>
@@ -96,11 +107,23 @@
 
     reset()
 
+    let TIMER_DELAY = 5 // ms
+
     function runSearch(variant) {
+      reset()
       const sx = $('#Sx').val()
       const sy = $('#Sy').val()
       const ex = $('#Ex').val()
       const ey = $('#Ey').val()
+      TIMER_DELAY = Number($('#speed').val())
+
+      let startSquare = $(`#${sx}_${sy}`)
+      let endSquare = $(`#${ex}_${ey}`)
+
+      startSquare.html('S')
+      endSquare.html('E')
+      startSquare.addClass('start')
+      endSquare.addClass('end')
 
       const start = { x: Number(sx), y: Number(sy), parent: null }
       const end = { x: Number(ex), y: Number(ey) }
@@ -115,7 +138,7 @@
       }
     }
 
-    const TIMER_DELAY = 5 // ms
+
 
     ////////////////////////////////////////////////////////////////////////////
     ////////// DFS /////////////////////////////////////////////////////////////
