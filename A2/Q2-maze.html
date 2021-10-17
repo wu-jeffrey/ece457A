@@ -3,7 +3,7 @@
 <head>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <style>
-    td {
+    td.cell {
       width: 24px;
       height: 24px;
       border: 1px solid black;
@@ -61,6 +61,30 @@
       <button onclick="runSearch('BFS')">BFS</button>
       <button>A*</button>
       <button onclick="reset()">Reset</button>
+      <hr />
+      LEGEND
+      <table>
+        <tr>
+          <td class="cell"> </td>
+          <td>Unvisited</td>
+        </tr>
+        <tr>
+          <td class="cell visited"> </td>
+          <td>Visited</td>
+        </tr>
+        <tr>
+          <td class="obstacle"> </td>
+          <td>Obstacle</td>
+        </tr>
+        <tr>
+          <td class="start">S</td>
+          <td>Start</td>
+        </tr>
+        <tr>
+          <td class="end">E</td>
+          <td>End</td>
+        </tr>
+      </table>
     </div>
   </div>
 
