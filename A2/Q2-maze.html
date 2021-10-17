@@ -13,13 +13,44 @@
     .obstacle {
       background-color: black;
     }
+
+    .current {
+      background-color: green;
+    }
+
+    .visited {
+      background-color: gray;
+    }
+
+    .path {
+      background-color: red;
+    }
   </style>
 </head>
 
 <body>
-  <div id="app">
+  <div id="app" style="display: flex; justify-content: space-evenly;">
     <table id="maze"></table>
-    <div id='controls'></div>
+    <div id='controls'>
+      <div style="display: flex; flex-direction: column; justify-content: space-evenly;">
+        <label for="fname">Start X</label>
+        <input id="Sx" name="Sx" value='0' type="number">
+
+        <label for="fname">Start Y:</label>
+        <input id="Sy" name="Sy" value='0' type="number">
+
+        <label for="fname">End X</label>
+        <input id="Ex" name="Ex" value='24' type="number">
+
+        <label for="fname">End Y</label>
+        <input id="Ey" name="Ey" value='24' type="number">
+      </div>
+      <hr />
+      <button onclick="runSearch('DFS')">DFS</button>
+      <button onclick="runSearch('BFS')">BFS</button>
+      <button>A*</button>
+      <button onclick="reset()">Reset</button>
+    </div>
   </div>
 
   <script>
@@ -53,13 +84,211 @@
 
     let rowsMarkup = maze.map((row, i) => {
       let rowMarkup = row.map((square, j) => {
-        return `<td id="${j}-${i}" class="${square ? 'cell obstacle' : 'cell'}"> </td>`
+        return `<td id="${j}_${i}" class="${square ? 'cell obstacle' : 'cell'}"> </td>`
       }).join()
 
       return `<tr>${rowMarkup}</tr>`
     }).reverse()
 
-    $('#maze').html(rowsMarkup);
+    function reset() {
+      $('#maze').html(rowsMarkup);
+    }
+
+    reset()
+
+    function runSearch(variant) {
+      const sx = $('#Sx').val()
+      const sy = $('#Sy').val()
+      const ex = $('#Ex').val()
+      const ey = $('#Ey').val()
+
+      const start = { x: Number(sx), y: Number(sy), parent: null }
+      const end = { x: Number(ex), y: Number(ey) }
+
+      switch (variant) {
+        case 'DFS':
+          DFS(start, end)
+          break;
+        case 'BFS':
+          BFS(start, end)
+          break;
+      }
+    }
+
+    const TIMER_DELAY = 5 // ms
+
+    ////////////////////////////////////////////////////////////////////////////
+    ////////// DFS /////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////
+
+    let visitedNodes = {}
+
+    async function DFS(start, goal) {
+      visitedNodes = {}
+      let numNodesExplored = 0
+
+      let stack = [start]
+      while (stack.length > 0) {
+        const currentNode = stack.pop() // LIFO take from back of array (i.e. top of stack)
+        if (!isVisited(currentNode)) {
+          numNodesExplored++
+          markVisited(currentNode);
+          if (compareNodes(currentNode, goal)) {
+            // Path found!
+            const path = backtracePath(currentNode)
+
+            console.log('Solution Path: ', path)
+            console.log('Cost: ', path.length - 1) // Cost doesn't include first node
+            console.log('Nodes Explored: ', numNodesExplored)
+
+            visualizeSolution(path);
+            return 'success'
+          }
+
+          let R = rightNode(currentNode)
+          let L = leftNode(currentNode)
+          let U = upNode(currentNode)
+          let D = downNode(currentNode)
+
+          // only add node if it exists and it is not an obstacle
+          if (R && !isNodeObstacle(R)) { stack.push(R) }
+          if (L && !isNodeObstacle(L)) { stack.push(L) }
+          if (U && !isNodeObstacle(U)) { stack.push(U) }
+          if (D && !isNodeObstacle(D)) { stack.push(D) }
+          visualize(visitedNodes, currentNode, stack)
+          await timer(TIMER_DELAY)
+        }
+      }
+
+      console.log('no path found')
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+    ////////// BFS /////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////
+
+    async function BFS(start, goal) {
+      visitedNodes = {}
+      let numNodesExplored = 0
+
+      let queue = [start]
+      while (queue.length > 0) {
+        const currentNode = queue.shift() // FIFO take from front of array
+        if (!isVisited(currentNode)) {
+          numNodesExplored++
+          markVisited(currentNode);
+          if (compareNodes(currentNode, goal)) {
+            // Path found!
+            const path = backtracePath(currentNode)
+
+            console.log('Solution Path: ', path)
+            console.log('Cost: ', path.length - 1) // Cost doesn't include first node
+            console.log('Nodes Explored: ', numNodesExplored)
+
+            visualizeSolution(path)
+            return 'success'
+          }
+
+          let R = rightNode(currentNode)
+          let L = leftNode(currentNode)
+          let U = upNode(currentNode)
+          let D = downNode(currentNode)
+
+          // only add node if it exists and it is not an obstacle
+          if (R && !isNodeObstacle(R)) { queue.push(R) }
+          if (L && !isNodeObstacle(L)) { queue.push(L) }
+          if (U && !isNodeObstacle(U)) { queue.push(U) }
+          if (D && !isNodeObstacle(D)) { queue.push(D) }
+          visualize(visitedNodes, currentNode, queue)
+          await timer(TIMER_DELAY)
+        }
+      }
+
+      console.log('no path found')
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+    ////////// HELPER FUNCTIONS ////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////
+    const timer = ms => new Promise(res => setTimeout(res, ms))
+
+    function visualize(visitedNodes, currentNode, fringe) {
+      $(`#${serializeNodeCoordinates(currentNode)}`).addClass('visited current')
+
+      if (currentNode.parent) {
+        $(`#${serializeNodeCoordinates(currentNode.parent)}`).removeClass('current')
+      }
+    }
+
+    function visualizeSolution(path) {
+      path.forEach(async (coordinates) => {
+        $(`#${coordinates}`).addClass('path')
+
+        await timer(TIMER_DELAY)
+      });
+    }
+
+    function nodeCoordinatesString(N) {
+      if (!N) return
+      return `${N.x}, ${N.y}`
+    }
+
+    function serializeNodeCoordinates(N) {
+      return `${N.x}_${N.y}`
+    }
+
+    function markVisited(N) {
+      visitedNodes[serializeNodeCoordinates(N)] = true
+    }
+
+    function isVisited(N) {
+      return visitedNodes[serializeNodeCoordinates(N)]
+    }
+
+    function backtracePath(N) {
+      let path = [serializeNodeCoordinates(N)]
+      parent = N.parent
+      while (parent) {
+        path.unshift(serializeNodeCoordinates(parent)) // append to front of array
+        parent = parent.parent
+      }
+      return path
+    }
+
+    function isNodeObstacle(N) {
+      return maze[N.y][N.x]
+    }
+
+    function compareNodes(A, B) {
+      if (!A || !B) return false
+
+      return A.x == B.x && A.y == B.y
+    }
+
+    function rightNode(N) {
+      if (N.x == maze[0].length - 1) return null // if x is at horizontal limit of maze
+
+      return { ...N, x: N.x + 1, parent: N }
+    }
+
+    function leftNode(N) {
+      if (N.x == 0) return null
+
+      return { ...N, x: N.x - 1, parent: N }
+    }
+
+    function downNode(N) {
+      if (N.y == 0) return null
+
+      return { ...N, y: N.y - 1, parent: N }
+    }
+
+    function upNode(N) {
+      if (N.y == maze.length - 1) return null
+
+      return { ...N, y: N.y + 1, parent: N }
+    }
+
   </script>
 </body>
 
