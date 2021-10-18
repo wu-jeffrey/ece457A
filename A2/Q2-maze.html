@@ -38,9 +38,11 @@
 
 <body>
   <div id="app" style="display: flex; justify-content: space-evenly;">
-    <table id="maze"></table>
+    <div style="height:652px; width:652px;min-height:652px; min-width:652px; margin:16px">
+      <table id="maze"></table>
+    </div>
     <div id='controls'>
-      <div style="display: flex; flex-direction: column; justify-content: space-evenly;">
+      <div style="display: flex; flex-direction: column; justify-content: space-evenly; width: 300px;">
         <label for="fname">Start X</label>
         <input id="Sx" name="Sx" value='0' type="number">
 
@@ -54,7 +56,7 @@
         <input id="Ey" name="Ey" value='24' type="number">
 
         <label for="volume">Iteration Delay</label>
-        <input type="range" id="speed" name="speed" min="2" max="500" value="5">
+        <input type="range" id="speed" name="speed" min="0" max="500" value="5">
       </div>
       <hr />
       <button onclick="runSearch('DFS')">DFS</button>
@@ -85,6 +87,19 @@
           <td>End</td>
         </tr>
       </table>
+      <hr />
+      RESULTS
+      <div>
+        <div>
+          Cost: <span id='result-cost'></span>
+        </div>
+        <div>
+          Nodes Expanded: <span id='result-nodes-explored'></span>
+        </div>
+        <div>
+          Solution Path: <span id='result-path'></span>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -127,6 +142,9 @@
 
     function reset() {
       $('#maze').html(rowsMarkup);
+      $('#result-cost').html('')
+      $('#result-nodes-explored').html('')
+      $('#result-path').html('')
     }
 
     reset()
@@ -185,10 +203,7 @@
             // Path found!
             const path = backtracePath(currentNode)
 
-            console.log('Solution Path: ', path)
-            console.log('Cost: ', path.length - 1) // Cost doesn't include first node
-            console.log('Nodes Explored: ', numNodesExplored)
-
+            outputSolution(path, numNodesExplored)
             visualizeSolution(path);
             return 'success'
           }
@@ -209,6 +224,7 @@
       }
 
       console.log('no path found')
+      outputSolution(null)
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -229,10 +245,7 @@
             // Path found!
             const path = backtracePath(currentNode)
 
-            console.log('Solution Path: ', path)
-            console.log('Cost: ', path.length - 1) // Cost doesn't include first node
-            console.log('Nodes Explored: ', numNodesExplored)
-
+            outputSolution(path, numNodesExplored)
             visualizeSolution(path)
             return 'success'
           }
@@ -253,6 +266,7 @@
       }
 
       console.log('no path found')
+      outputSolution(null)
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -273,11 +287,7 @@
             // Path found!
             const path = backtracePath(currentNode)
 
-            console.log('Solution Path: ', path)
-            console.log('Cost: ', path.length - 1) // Cost doesn't include first node
-            console.log('Cost stored: ', currentNode.cost) // Cost doesn't include first node
-            console.log('Nodes Explored: ', numNodesExplored)
-
+            outputSolution(path, numNodesExplored)
             visualizeSolution(path)
             return 'success'
           }
@@ -311,12 +321,32 @@
       }
 
       console.log('no path found')
+      outputSolution(null)
     }
 
 
     ////////////////////////////////////////////////////////////////////////////
     ////////// HELPER FUNCTIONS ////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////
+
+    function outputSolution(path, numNodesExplored) {
+      if (!path) {
+        $('#result-cost').html('NO SOLUTION')
+        $('#result-nodes-explored').html('NO SOLUTION')
+        $('#result-path').html('NO SOLUTION')
+      } else {
+        let formattedPath = path.map((node_coordinate) => `(${node_coordinate.split('_').join(',')})`).join(', ')
+
+        console.log('Solution Path: ', formattedPath)
+        console.log('Cost: ', path.length - 1) // Cost doesn't include first node
+        console.log('Nodes Explored: ', numNodesExplored)
+
+        $('#result-cost').html(path.length - 1)
+        $('#result-nodes-explored').html(numNodesExplored)
+        $('#result-path').html(formattedPath)
+      }
+    }
+
     function calcHeuristic(N, goal) {
       // this rise + run is admissable since we cannot travel a diagonal.
       // It's also better than euclidean distance (i.e. hypotenuse) since
@@ -353,7 +383,7 @@
 
     function nodeCoordinatesString(N) {
       if (!N) return
-      return `${N.x}, ${N.y}`
+      return `(${N.x}, ${N.y})`
     }
 
     function serializeNodeCoordinates(N) {
