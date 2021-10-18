@@ -59,7 +59,7 @@
       <hr />
       <button onclick="runSearch('DFS')">DFS</button>
       <button onclick="runSearch('BFS')">BFS</button>
-      <button>A*</button>
+      <button onclick="runSearch('A')">A*</button>
       <button onclick="reset()">Reset</button>
       <hr />
       LEGEND
@@ -149,7 +149,7 @@
       startSquare.addClass('start')
       endSquare.addClass('end')
 
-      const start = { x: Number(sx), y: Number(sy), parent: null }
+      const start = { x: Number(sx), y: Number(sy), parent: null, cost: 0 }
       const end = { x: Number(ex), y: Number(ey) }
 
       switch (variant) {
@@ -159,10 +159,11 @@
         case 'BFS':
           BFS(start, end)
           break;
+        case 'A':
+          A(start, end)
+          break;
       }
     }
-
-
 
     ////////////////////////////////////////////////////////////////////////////
     ////////// DFS /////////////////////////////////////////////////////////////
@@ -255,8 +256,83 @@
     }
 
     ////////////////////////////////////////////////////////////////////////////
+    ////////// A* //////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////
+
+    async function A(start, goal) {
+      visitedNodes = {}
+      let numNodesExplored = 0
+
+      let queue = [start]
+      while (queue.length > 0) {
+        const currentNode = queue.shift() // FIFO take from front of array
+        if (!isVisited(currentNode)) {
+          numNodesExplored++
+          markVisited(currentNode);
+          if (compareNodes(currentNode, goal)) {
+            // Path found!
+            const path = backtracePath(currentNode)
+
+            console.log('Solution Path: ', path)
+            console.log('Cost: ', path.length - 1) // Cost doesn't include first node
+            console.log('Cost stored: ', currentNode.cost) // Cost doesn't include first node
+            console.log('Nodes Explored: ', numNodesExplored)
+
+            visualizeSolution(path)
+            return 'success'
+          }
+
+          let R = rightNode({
+            ...currentNode, cost: currentNode.cost + 1, heuristic: calcHeuristic(currentNode, goal)
+          })
+          let L = leftNode({
+            ...currentNode, cost: currentNode.cost + 1, heuristic: calcHeuristic(currentNode, goal)
+          })
+          let U = upNode({
+            ...currentNode, cost: currentNode.cost + 1, heuristic: calcHeuristic(currentNode, goal)
+          })
+          let D = downNode({
+            ...currentNode, cost: currentNode.cost + 1, heuristic: calcHeuristic(currentNode, goal)
+          })
+
+          // only add node if it exists and it is not an obstacle
+          if (R && !isNodeObstacle(R)) { queue.push(R) }
+          if (L && !isNodeObstacle(L)) { queue.push(L) }
+          if (U && !isNodeObstacle(U)) { queue.push(U) }
+          if (D && !isNodeObstacle(D)) { queue.push(D) }
+
+          queue.sort(((a, b) => evalFunction(a) - evalFunction(b)))
+          // if f(a) > f(b) this will put b in front of a in the queue
+          // f(n) = h(n) + g(n) := heuristic + cost-to-get-to-node
+
+          visualize(visitedNodes, currentNode, queue)
+          await timer(TIMER_DELAY)
+        }
+      }
+
+      console.log('no path found')
+    }
+
+
+    ////////////////////////////////////////////////////////////////////////////
     ////////// HELPER FUNCTIONS ////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////
+    function calcHeuristic(N, goal) {
+      // this rise + run is admissable since we cannot travel a diagonal.
+      // It's also better than euclidean distance (i.e. hypotenuse) since
+      // it's larger but still admissable, making it a better heuristic
+
+      let delX = Math.abs(N.x - goal.x)
+      let delY = Math.abs(N.y - goal.y)
+
+      return delX + delY
+    }
+
+    function evalFunction(N) {
+      // h(n) + g(n)
+      return N.heuristic + N.cost
+    }
+
     const timer = ms => new Promise(res => setTimeout(res, ms))
 
     function visualize(visitedNodes, currentNode, fringe) {
