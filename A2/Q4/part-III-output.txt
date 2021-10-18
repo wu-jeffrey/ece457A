@@ -1,0 +1,383 @@
+------------------------------------------------
+------------------- linear ---------------------
+------------------------------------------------
+------------------------------------------------
+------------------- ALPHAS ---------------------
+------------------------------------------------
+[
+  0.8283698936025621,
+  0.7526824036891171,
+  0.6011479559148865,
+  0.1891907943172273,
+  0.696349276131039,
+  0.17513974708078095,
+  0.2899480856363077,
+  0.5472280881238891,
+  0.6152011581300199,
+  0.19178821167578297
+]
+------------------------------------------------
+------------------ SOLUTIONS -------------------
+------------------------------------------------
+[
+  {
+    startingTemperature: 241,
+    initialPoint: { x: 1, y: -74, height: -0 },
+    temperature: -24610.096808085942,
+    height: 0,
+    node: { x: 137.60541959958687, y: -205.17316381134225, height: 0 },
+    iterationCount: 300000,
+    alpha: 0.8283698936025621
+  },
+  {
+    startingTemperature: 241,
+    initialPoint: { x: 1, y: -74, height: -0 },
+    temperature: -22339.472110679966,
+    height: -0,
+    node: { x: 185.24415752722103, y: -593.7892150798405, height: -0 },
+    iterationCount: 300000,
+    alpha: 0.7526824036891171
+  },
+  {
+    startingTemperature: 241,
+    initialPoint: { x: 1, y: -74, height: -0 },
+    temperature: -17793.43867744642,
+    height: -0,
+    node: { x: -287.2333483874477, y: -404.24959620803077, height: -0 },
+    iterationCount: 300000,
+    alpha: 0.6011479559148865
+  },
+  {
+    startingTemperature: 241,
+    initialPoint: { x: 1, y: -74, height: -0 },
+    temperature: -5434.723829517589,
+    height: 0,
+    node: { x: 22.199830115747723, y: 120.76679649826094, height: 0 },
+    iterationCount: 300000,
+    alpha: 0.1891907943172273
+  },
+  {
+    startingTemperature: 241,
+    initialPoint: { x: 1, y: -74, height: -0 },
+    temperature: -20649.478283937213,
+    height: -0,
+    node: { x: -95.08557046059654, y: -244.13164863546749, height: -0 },
+    iterationCount: 300000,
+    alpha: 0.696349276131039
+  },
+  {
+    startingTemperature: 241,
+    initialPoint: { x: 1, y: -74, height: -0 },
+    temperature: -5013.192412422195,
+    height: 0,
+    node: { x: -7.596039775188325, y: 98.71585778805941, height: 0 },
+    iterationCount: 300000,
+    alpha: 0.17513974708078095
+  },
+  {
+    startingTemperature: 241,
+    initialPoint: { x: 1, y: -74, height: -0 },
+    temperature: -8457.44256909493,
+    height: 0,
+    node: { x: -395.1780547589033, y: 179.19634801424465, height: 0 },
+    iterationCount: 300000,
+    alpha: 0.2899480856363077
+  },
+  {
+    startingTemperature: 241,
+    initialPoint: { x: 1, y: -74, height: -0 },
+    temperature: -16175.842643720169,
+    height: -0,
+    node: { x: 368.49265071351215, y: -335.0231274445549, height: -0 },
+    iterationCount: 300000,
+    alpha: 0.5472280881238891
+  },
+  {
+    startingTemperature: 241,
+    initialPoint: { x: 1, y: -74, height: -0 },
+    temperature: -18215.03474390484,
+    height: 0,
+    node: { x: 192.80792039573623, y: -302.23625248332763, height: 0 },
+    iterationCount: 300000,
+    alpha: 0.6152011581300199
+  },
+  {
+    startingTemperature: 241,
+    initialPoint: { x: 1, y: -74, height: -0 },
+    temperature: -5512.646350275808,
+    height: -0,
+    node: { x: 288.0735077285567, y: 13.679338280361517, height: -0 },
+    iterationCount: 300000,
+    alpha: 0.19178821167578297
+  }
+]
+------------------------------------------------
+------------------- geometric ---------------------
+------------------------------------------------
+------------------------------------------------
+------------------- ALPHAS ---------------------
+------------------------------------------------
+[
+  0.8283698936025621,
+  0.7526824036891171,
+  0.6011479559148865,
+  0.1891907943172273,
+  0.696349276131039,
+  0.17513974708078095,
+  0.2899480856363077,
+  0.5472280881238891,
+  0.6152011581300199,
+  0.19178821167578297
+]
+------------------------------------------------
+------------------ SOLUTIONS -------------------
+------------------------------------------------
+[
+  {
+    startingTemperature: 241,
+    initialPoint: { x: 1, y: -74, height: -0 },
+    temperature: 5e-324,
+    height: -0.9999995430860503,
+    node: {
+      x: 3.1420739080299676,
+      y: 3.141862845243906,
+      height: -0.9999995430860503
+    },
+    iterationCount: 300000,
+    alpha: 0.5472280881238891
+  },
+  {
+    startingTemperature: 241,
+    initialPoint: { x: 1, y: -74, height: -0 },
+    temperature: 1e-323,
+    height: -5.188024840775906e-55,
+    node: {
+      x: -7.8994729371364585,
+      y: 3.1504859732781223,
+      height: -5.188024840775906e-55
+    },
+    iterationCount: 300000,
+    alpha: 0.8283698936025621
+  },
+  {
+    startingTemperature: 241,
+    initialPoint: { x: 1, y: -74, height: -0 },
+    temperature: 1e-323,
+    height: -0,
+    node: { x: -671.7567524893526, y: 214.85430180557572, height: -0 },
+    iterationCount: 300000,
+    alpha: 0.7526824036891171
+  },
+  {
+    startingTemperature: 241,
+    initialPoint: { x: 1, y: -74, height: -0 },
+    temperature: 5e-324,
+    height: 0,
+    node: { x: 253.95689603173525, y: -659.4471536170952, height: 0 },
+    iterationCount: 300000,
+    alpha: 0.6011479559148865
+  },
+  {
+    startingTemperature: 241,
+    initialPoint: { x: 1, y: -74, height: -0 },
+    temperature: 0,
+    height: -0,
+    node: { x: -36.782305726400224, y: -30.82362952705906, height: -0 },
+    iterationCount: 300000,
+    alpha: 0.1891907943172273
+  },
+  {
+    startingTemperature: 241,
+    initialPoint: { x: 1, y: -74, height: -0 },
+    temperature: 5e-324,
+    height: -0,
+    node: { x: -791.9709926706513, y: 264.07316513063995, height: -0 },
+    iterationCount: 300000,
+    alpha: 0.696349276131039
+  },
+  {
+    startingTemperature: 241,
+    initialPoint: { x: 1, y: -74, height: -0 },
+    temperature: 0,
+    height: -0,
+    node: { x: -46.593110683400376, y: -135.72971947732387, height: -0 },
+    iterationCount: 300000,
+    alpha: 0.17513974708078095
+  },
+  {
+    startingTemperature: 241,
+    initialPoint: { x: 1, y: -74, height: -0 },
+    temperature: 0,
+    height: 0,
+    node: { x: 69.33738816878339, y: -77.88429109987473, height: 0 },
+    iterationCount: 300000,
+    alpha: 0.2899480856363077
+  },
+  {
+    startingTemperature: 241,
+    initialPoint: { x: 1, y: -74, height: -0 },
+    temperature: 5e-324,
+    height: -0,
+    node: { x: 609.3135672782869, y: 283.7950387678717, height: -0 },
+    iterationCount: 300000,
+    alpha: 0.6152011581300199
+  },
+  {
+    startingTemperature: 241,
+    initialPoint: { x: 1, y: -74, height: -0 },
+    temperature: 0,
+    height: 0,
+    node: { x: -92.520413055764, y: -82.41735772645711, height: 0 },
+    iterationCount: 300000,
+    alpha: 0.19178821167578297
+  }
+]
+------------------------------------------------
+------------------- slow ---------------------
+------------------------------------------------
+------------------------------------------------
+------------------- ALPHAS ---------------------
+------------------------------------------------
+[
+  0.8283698936025621,
+  0.7526824036891171,
+  0.6011479559148865,
+  0.1891907943172273,
+  0.696349276131039,
+  0.17513974708078095,
+  0.2899480856363077,
+  0.5472280881238891,
+  0.6152011581300199,
+  0.19178821167578297
+]
+------------------------------------------------
+------------------ SOLUTIONS -------------------
+------------------------------------------------
+[
+  {
+    startingTemperature: 241,
+    initialPoint: { x: 1, y: -74, height: -0 },
+    temperature: 5e-324,
+    height: -0.9999987301466876,
+    node: {
+      x: 3.1419404777907105,
+      y: 3.142444467952014,
+      height: -0.9999987301466876
+    },
+    iterationCount: 300000,
+    alpha: 0.5472280881238891
+  },
+  {
+    startingTemperature: 241,
+    initialPoint: { x: 1, y: -74, height: -0 },
+    temperature: 5e-324,
+    height: -0.9999961250677383,
+    node: {
+      x: 3.143196266222623,
+      y: 3.141484397707623,
+      height: -0.9999961250677383
+    },
+    iterationCount: 300000,
+    alpha: 0.8283698936025621
+  },
+  {
+    startingTemperature: 241,
+    initialPoint: { x: 1, y: -74, height: -0 },
+    temperature: 5e-324,
+    height: -0.9999960302897909,
+    node: {
+      x: 3.142490357484656,
+      y: 3.1429493430230986,
+      height: -0.9999960302897909
+    },
+    iterationCount: 300000,
+    alpha: 0.6152011581300199
+  },
+  {
+    startingTemperature: 241,
+    initialPoint: { x: 1, y: -74, height: -0 },
+    temperature: 1.5e-323,
+    height: -0.9999933657253103,
+    node: {
+      x: 3.1394925353799445,
+      y: 3.1417038601024845,
+      height: -0.9999933657253103
+    },
+    iterationCount: 300000,
+    alpha: 0.19178821167578297
+  },
+  {
+    startingTemperature: 241,
+    initialPoint: { x: 1, y: -74, height: -0 },
+    temperature: 5e-324,
+    height: -8.7428948946526e-12,
+    node: {
+      x: -1.6735559257529218,
+      y: 3.142085569388096,
+      height: -8.7428948946526e-12
+    },
+    iterationCount: 300000,
+    alpha: 0.7526824036891171
+  },
+  {
+    startingTemperature: 241,
+    initialPoint: { x: 1, y: -74, height: -0 },
+    temperature: 1.5e-323,
+    height: -8.74231692360373e-12,
+    node: {
+      x: -1.6741581209521614,
+      y: 3.1493049368493278,
+      height: -8.74231692360373e-12
+    },
+    iterationCount: 300000,
+    alpha: 0.17513974708078095
+  },
+  {
+    startingTemperature: 241,
+    initialPoint: { x: 1, y: -74, height: -0 },
+    temperature: 1e-323,
+    height: -8.741754070023275e-12,
+    node: {
+      x: -1.674080879396648,
+      y: 3.1315050691656916,
+      height: -8.741754070023275e-12
+    },
+    iterationCount: 300000,
+    alpha: 0.2899480856363077
+  },
+  {
+    startingTemperature: 241,
+    initialPoint: { x: 1, y: -74, height: -0 },
+    temperature: 5e-324,
+    height: -2.3211847263452985e-132,
+    node: {
+      x: -14.16606712157675,
+      y: 3.1453361698598337,
+      height: -2.3211847263452985e-132
+    },
+    iterationCount: 300000,
+    alpha: 0.6011479559148865
+  },
+  {
+    startingTemperature: 241,
+    initialPoint: { x: 1, y: -74, height: -0 },
+    temperature: 5e-324,
+    height: -6.123067454321075e-244,
+    node: {
+      x: 3.1506715670796153,
+      y: -20.441406062777908,
+      height: -6.123067454321075e-244
+    },
+    iterationCount: 300000,
+    alpha: 0.696349276131039
+  },
+  {
+    startingTemperature: 241,
+    initialPoint: { x: 1, y: -74, height: -0 },
+    temperature: 1.5e-323,
+    height: 0,
+    node: { x: 210.86508142676698, y: -585.7257790208328, height: 0 },
+    iterationCount: 300000,
+    alpha: 0.1891907943172273
+  }
+]
