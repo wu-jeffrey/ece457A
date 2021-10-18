@@ -7,6 +7,7 @@ The file `Q2-Maze.js` was pulled from Learn and the file `Q2-maze.html` is a sel
 The modifications are only for the visualization.
 
 Note that all 3 algorithms share many of the same helper functions. I included them all in separate files instead of importing so that each file can be run standalone. A* has some extra methods pertaining to calculating heuristics and also stores the cost on each node.
+I recommend using the visualization! Just open the HTML file into any web browser.
 
 #### BFS & DFS
 Both approaches are extremely simlar, the only difference is that BFS uses a FIFO queue as a fringe and DFS uses a LIFO stack. This enables BFS to add elements to the "fringe" at the same depth whereas DFS searches an entire branch before backtracking.
