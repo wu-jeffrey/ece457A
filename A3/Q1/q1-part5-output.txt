@@ -1,0 +1,11 @@
+------------------------
+--- partialNeighbourhood, size of 100 ---
+---- FINAL SOLUTION ----
+iterations:  1000
+solution:  [
+  [ 17, 1, 6, 18, 3 ],
+  [ 4, 7, 5, 2, 10 ],
+  [ 11, 8, 20, 15, 19 ],
+  [ 16, 12, 13, 14, 9 ]
+]
+cost:  2662

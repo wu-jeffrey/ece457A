@@ -1,0 +1,44 @@
+------------------------
+--- bestSolutionSeen ---
+---- FINAL SOLUTION ----
+iterations:  1000
+solution:  [
+  [ 17, 1, 5, 18, 3 ],
+  [ 4, 7, 19, 2, 10 ],
+  [ 11, 8, 12, 14, 6 ],
+  [ 16, 20, 15, 9, 13 ]
+]
+cost:  2680
+------------------------
+--- bestInNeighbourhood ---
+---- FINAL SOLUTION ----
+iterations:  1000
+solution:  [
+  [ 17, 1, 5, 18, 3 ],
+  [ 4, 7, 19, 2, 10 ],
+  [ 11, 8, 12, 14, 6 ],
+  [ 16, 20, 15, 9, 13 ]
+]
+cost:  2680
+------------------------
+--- bestSolutionSeen + 21 TabuTenure ---
+---- FINAL SOLUTION ----
+iterations:  1000
+solution:  [
+  [ 16, 19, 14, 18, 9 ],
+  [ 4, 15, 2, 10, 3 ],
+  [ 11, 8, 12, 5, 13 ],
+  [ 17, 20, 7, 1, 6 ]
+]
+cost:  2600
+------------------------
+--- bestInNeighbourhood + 21 TabuTenure ---
+---- FINAL SOLUTION ----
+iterations:  1000
+solution:  [
+  [ 17, 1, 5, 18, 3 ],
+  [ 4, 7, 19, 2, 10 ],
+  [ 11, 8, 12, 14, 6 ],
+  [ 16, 20, 15, 9, 13 ]
+]
+cost:  2680
