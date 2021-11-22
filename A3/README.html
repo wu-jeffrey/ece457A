@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>README.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="assignment-3">Assignment 3</h1>
+<h2 id="q1">Q1</h2>
+<p>Note that the approach doubled the flows.</p>
+<h3 id="part-0-running-basic-ts">PART 0: Running basic TS</h3>
+<p>The basic TS with no frequency based memory, no aspiration criterion, whole neighbourhood selection, a tabu size/tenure of 10 and a stopping condition of 1000 iterations was run. It's output can be found in <code>q1-part0-output.txt</code></p>
+<h3 id="part-1-varying-the-starting-position">PART 1: Varying the starting position</h3>
+<p>To generate 10 different initial solutions, the <code>matrixShuffle</code> function was used to scramble the elements inside the default initial solution matrix (figure 1 from the assignment instructions). The output can be found in <code>q1-part1-output.txt</code></p>
+<p>Different starting points resulted in different ending solutions. Intuitively, in a large search space, with a meta heuristic algorithm with low search diversity (such as this case of simple TS without frequency based memory), beginning closer to the optimal solution will likely allow the algorithm to converge and &quot;get stuck&quot; in the global optimum. In fact, one initial condition allowed the tabu search to get the optimal configuration with a doubled-flow cost of 2570 (as mentioned in the assignment instructions):</p>
+<pre class="hljs"><code><div>initialSolution: [
+  [ 5, 2, 3, 1, 4 ],
+  [ 6, 8, 9, 10, 7 ],
+  [ 12, 11, 15, 14, 13 ],
+  [ 18, 16, 17, 20, 19 ]
+]
+
+cost: 2570
+
+solution:  [
+  [ 6, 1, 7, 5, 17 ],
+  [ 13, 8, 20, 15, 19 ],
+  [ 16, 11, 12, 2, 4 ],
+  [ 9, 3, 10, 14, 18 ]
+]
+</div></code></pre>
+<h3 id="part-2-tabu-size">PART 2: Tabu Size</h3>
+<p>A tabu tenure of 3 and 25 were chosen, smaller and larger than the default size of 10, respectively. Note that the default initialSolution was used instead of the best one found in PART 1 since this variable was to be tested independently.
+The smaller tabu size converged to the same solution as the default, (cost of 2680) whereas the larger taboo converged to a more optimal solution(lower cost of 2598). The larger tabu size enables a higher level of diversity as it may make a larger subset of a neighborhood taboo, forcing the algorithm to explore worse solutions and escape local optimums. It was found that tabu sizes less than 21 and the default initial solution resulted in being stuck in the cost; 2680 local optimum. The output can be found in <code>q1-part2-output.txt</code></p>
+<h3 id="part-3-dynamic-tabu-tenure">PART 3: Dynamic Tabu Tenure</h3>
+<p>To increase the dynamic tabu tenure infrequently, a stochastic approach was taken, giving the tenure change a 1% probability of occuring each iteration. At the default stopping condition of 1000, this would mean 10 tenure changes. The integer range for the dynamic tabu was initially chosen to be <code>[1, 21]</code> then <code>[21,50]</code> and finally <code>[1,50]</code>. It was observed in PART 2 that tabu sizes lower than 21 used with the default initial solution resulted in getting trapped in a local optimum. As such, the former dynamic tabu range was chosen to undershoot, overshoot and overlap this inflection point. From the output, there doesn't seem to be a clear correlation between the ranges in and the optimality of the solution. This is likely due to the stochastic nature of the dynamic tabu size. However, it does allow for good diversification. The output can be found in <code>q1-part3-output.txt</code>.</p>
+<h3 id="part-4-aspiration-criterion">PART 4: Aspiration Criterion</h3>
+<p>Only setting an aspiration criterion initially was not enough to escape the local optimum near the default initial solution (cost of 2680). As such, the tabu tenure was also adjusted to aforementioned value of <code>21</code>.
+Only the <code>bestSolutionSeen</code> was able to escape the 2680 local optimum. When using the <code>bestSolutionInNeighbourhood</code>, the algorithm was still utilizing the <code>whole neighbourhood selection</code>, i.e. all possible permutations possible were generated. Thus, the most optimal solution in that whole neighborhood would be the same as when no aspiration criterion was used, as such the value expectedly converged to the same 2680 local optimum. The aspiration criterion of <code>bestSolutionInNeighbourhood</code> used in conjuction with <code>whole neighbourhood selection</code> effectively functioned to ignore the tabu list. The output can be found in <code>q1-part4-output.txt</code>.</p>
+<h3 id="part-5-less-than-whole-neighborhood">PART 5: Less Than Whole Neighborhood</h3>
+<p>The less than whole neighbourhood allowed escaping the 2680 local optimum, even without modifying the tabu tenure above 21. This is likely due to the stochastic nature of the neighbourhood generation, as the <code>subset</code> of the <code>whole neighborhood (WN)</code> doesn't necessarily contain the most optimal solution in the WN. This allowed for slight diversification and escape of the the 2680 local optimum.</p>
+<h3 id="part-6-frequency-based-memory">PART 6: Frequency Based Memory</h3>
+<p>Using frequency based memory, the local minimum of 2680 however the value still gets stuck at a (better) local optimum of cost 2654. Frequency based memory definitely helped increase solution diversity enabling the escape of the local optimum</p>
+<hr>
+<h2 id="q2">Q2</h2>
+<h3 id="part-a-solution-representation">PART A: Solution representation</h3>
+<p>Based on the <code>perfFCN.m</code> code provided, it appears that the argument <code>x</code> is a 1x3 matrix; as there are 3 controller parameters to be tuned, <code>K_p</code>, <code>T_i</code> and <code>T_d</code>. For simplicity, a real valued GA representation will be used for each of the 3 controller parameters.</p>
+<h3 id="part-b-fitness-function">PART B: Fitness Function</h3>
+<p>The performance function <code>perfFCN</code> returns four values, <code>ISE</code>, <code>t_r</code>, <code>t_s</code> and <code>M_p</code>.
+A possible fitness function could be to simply sum all the values, however if their magnitudes are too different, one performance value could weigh more heavily on the overall fitness. To rectify this, a rudimentary approach was used to iterate through the range of values and determine the minimum performance values. These minimum values can be used to be express each performance as a ratio to their respective minimum so that they can be weighted similarly when they are summed. Although it seems we are brute forcing a solution to the PID controller design, these minimums are the &quot;individual minimums&quot; of each parameter, and thus may not lead to good controller design.</p>
+<pre class="hljs"><code><div>% Minimumus found
+ISE: 74.077267208037500
+t_r: 0.435735829391950
+t_s: 4.260929504825433
+M_p: 9.436968709263516
+</div></code></pre>
+<p>As such, the performance values can be summed as:</p>
+<pre class="hljs"><code><div>SIGMA_P = ISE/74.077267208037500 + t_r/0.435735829391950 + t_s/4.260929504825433 + M_p/9.436968709263516
+</div></code></pre>
+<p>And the fitness function is:</p>
+<pre class="hljs"><code><div>1/SIGMA_P
+</div></code></pre>
+<h3 id="part-c-implementation">PART C: Implementation</h3>
+<p>The implementation can be found in the file <code>Q2.m</code>. Note that the whole arithmetic crossover and boundary/uniform mutation were used. The implementation of the uniform mutation utilized a range of 80% of the range of each gene. For example, the proportional gain, <code>K_p</code> ranged from <code>[2,18]</code>, as such the magnitude for mutation of this <code>K_p</code> gene would be <code>80% of (18-2) = +/- 12.8</code>.</p>
+<h3 id="part-d-fitness-vs-generation-plot">PART D: Fitness vs Generation Plot</h3>
+<p>The plot of fitness vs generation is shown below. Note that the fitness never decreases due to the elitist selection nature.</p>
+<img src="./Q2/part-d.jpg" alt="Part D" />
+<h3 id="part-e-varying-generation-size">PART E: Varying Generation Size</h3>
+<p>As shown in the figure below, Increasing the number of generations allows for more opportunities to diversify, as shown by the larger number of &quot;steps&quot; in the 300 generation (yellow line), plot when compared to its counterparts. The 150 gen (blue) surprisingly had a worse ending fitness than the 50 gen (orange), however this is likely attributed to the stochastic nature of the algorithm. Also note how the 150 gen had extremely early convergence near a local optimum, which may have been detrimental to diversification and resulted in poorer performance than the 50 gen.</p>
+<img src="./Q2/part-e.jpg" alt="Part E" />
+<h3 id="part-f-varying-population-size">PART F: Varying Population Size</h3>
+<p>Larger popultaion sizes result in premature convergence at a higher value. This is likely because a larger initial population increases the likelihood of containing a near optimal solution. This is shown in the figure below, where both the 50 gen (blue) and 200 gen (yellow) find a local optimum with a higher fitness value when compared to the 10 gen (orange). Note that the ending fitness of the 200 gen is the greatest with the 10 gen coming in second. The 50 gen appears to have prematurely converged and gotten stuck at the first local optimum.</p>
+<img src="./Q2/part-f.jpg" alt="Part F" />
+<h3 id="part-g-varying-crossover-probability">PART G: Varying Crossover Probability</h3>
+<p>In the figure below, it appears that higher crossover probabilities (CP) increase exploration; a 60% CP (blue) had higher exploration and diversity than a 30% CP (orange). The 90% CP (yellow) had a huge spike in terms of diversification at around 110 generations, finding a drastically better fitness value. This is likely because the whole arithmetic crossover results in rather large changes to the chromosomes as it touches each gene. With a high probability of occurence and combined with elitism, this found a solution with the highest fitness value seen so far.</p>
+<img src="./Q2/part-g.jpg" alt="Part G" />
+<h3 id="part-h-varying-mutation-probability">PART H: Varying Mutation Probability</h3>
+<p>The figure below shows the high mutation probability MP of 60% (yellow) resulted in higher exploration. The 25% MP (blue) also appeared to have higher exploration than the 5% MP (orange) as it had more &quot;steps&quot;, indicating movement to a different local optimum. Mutations theoretically increase exploitation because they result in a small change so that the children will stay relatively near the parents. However, as mentioned in PART C, the mutation was up to a range of 80% of the possible values. This may have been too great, and combined with only 3 genes, these mutations may have moved the solution too far from the parent, resulting in exploration instead of mutation.</p>
+<img src="./Q2/part-h.jpg" alt="Part H" />
+<hr>
+<h2 id="q3">Q3</h2>
+<p>The simulation was run with each permutation of each of the parameters. The table below summarizes the observations</p>
+<table>
+<thead>
+<tr>
+<th>Population</th>
+<th>Diffusion Rate</th>
+<th>Evaporation Rate</th>
+<th>Ticks until 0 food</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>30</td>
+<td>40</td>
+<td>10</td>
+<td>8940</td>
+<td>last food pile took forever</td>
+</tr>
+<tr>
+<td>50</td>
+<td>40</td>
+<td>10</td>
+<td>4210</td>
+<td>ants seem to cluster faster because there's more of them to release phermones</td>
+</tr>
+<tr>
+<td>100</td>
+<td>40</td>
+<td>10</td>
+<td>1037</td>
+<td>more clustering, clustering doesn't die down</td>
+</tr>
+<tr>
+<td>30</td>
+<td>80</td>
+<td>10</td>
+<td>7855</td>
+<td>I think larger phermone trails / clusters</td>
+</tr>
+<tr>
+<td>50</td>
+<td>80</td>
+<td>10</td>
+<td>5210</td>
+<td>Pretty big initial clusters but clusters kept dying out at the last food pile consistently</td>
+</tr>
+<tr>
+<td>100</td>
+<td>80</td>
+<td>10</td>
+<td>855</td>
+<td>super fast, huge simultaneous clustering of all 3 piles, no ant was unused high exploitation, exploration</td>
+</tr>
+<tr>
+<td>30</td>
+<td>40</td>
+<td>20</td>
+<td>7942</td>
+<td>smaller chemtrails that die down quicker, more exploration</td>
+</tr>
+<tr>
+<td>50</td>
+<td>40</td>
+<td>20</td>
+<td>4486</td>
+<td>^ ditto above</td>
+</tr>
+<tr>
+<td>100</td>
+<td>40</td>
+<td>20</td>
+<td>3413</td>
+<td>^ ditto above</td>
+</tr>
+<tr>
+<td>30</td>
+<td>80</td>
+<td>20</td>
+<td>7320</td>
+<td>Food piles being eaten at a similar rate, high exploration, low exploitation</td>
+</tr>
+<tr>
+<td>50</td>
+<td>80</td>
+<td>20</td>
+<td>5670</td>
+<td></td>
+</tr>
+<tr>
+<td>100</td>
+<td>80</td>
+<td>20</td>
+<td>2777</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="population-effects">Population Effects</h3>
+<p>The population appears to greatly increase the speed at which the ants find food. Both exploration and exploitation are increased with population. This is because there are more agents to search (exploration), as well as more agents to diffuse phermones (exploitation). In the observations, increasing population consistently increases the rate at which food is taken from the piles.</p>
+<h3 id="diffusion-rate-effects">Diffusion Rate Effects</h3>
+<p>Increasing diffusion rate appears to allow for higher exploitation as there are more phermones being released, thus allowing more ants to cluster around a particular solution. It appears that this typically increases the speed at which food is taken from the piles except for in the population population size of 50 permutations; increasing diffusion rate seems to have the opposite effect for the population 50 case. This may because higher diffusion may be causing lower exploration, making it difficult to find a more distant food pile (i.e. solution).</p>
+<h3 id="evaporation-rate-effects">Evaporation Rate Effects</h3>
+<p>Increasing evaporation appears to decrease exploitation; intuitively, if the phermones are dissappearing faster, it's less likely to be picked up by another agent. Correspondingly, higher evaporation seems to result in more exploration, many of the food piles were dissapearing at similar rates.</p>
+<h3 id="food-placement">Food Placement</h3>
+<p>Although not explicitly shown in the table, food/solution placement will play into the other effects and result in different food collection speed. For example, placing all the food piles near each other will favour an algorithm tuned for high exploitation (low evaporation, high diffusion). This is because solutions that are near each other will concentrate the phermones near each other and allow the agents to exploit that region. The converse is true, if the food piles are all placed far from each other, the time taken to find them may increase with a high explotation ant colony because they will take longer to reach distant solutions. In this case, it's likely better to decrease diffusion or increase evaporation to allow higher exploration.</p>
+
+</body>
+</html>
