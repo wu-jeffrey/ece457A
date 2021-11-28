@@ -140,12 +140,12 @@ Several runs were made, the UI created is able to show the plot of fitness vs it
 
 #### Run 1: `Fitness: 0.75`
 
-<img src="./Q3/p1.png" alt="Run 1" />
+<img src="./Q3/p1.png" alt="Run 1" style="border: 3px solid black;"/>
 
 #### Run 2: `Fitness: 0.75`
 
-<img src="./Q3/p2.png" alt="Run 2" />
+<img src="./Q3/p2.png" alt="Run 2" style="border: 3px solid black;"/>
 
 #### Run 3: `Fitness: 0.765625`
 
-<img src="./Q3/p3.png" alt="Run 3" />
+<img src="./Q3/p3.png" alt="Run 3" style="border: 3px solid black;"/>
