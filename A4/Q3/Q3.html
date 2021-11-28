@@ -1,19 +1,27 @@
 <html>
 
 <head>
-  <title>(F2021) ECE 457A: A4Q3 - Solving the 6-multiplexor problem using Genetic Programming </title>
+  <title>(F2021) ECE 457A: A4Q3 - Solving the 6-multiplexor problem using Genetic Programming</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdn.plot.ly/plotly-2.6.3.min.js"></script>
 </head>
 
-<body>
+<body style="font-family: Arial, Helvetica, sans-serif;">
+
+
+  <div id="loader" style="height:100%; width:100%; display: flex; justify-content: center; align-items: center;">
+    LOADING
+  </div>
+
   <div id="app" style="display: flex; justify-content: space-evenly;">
     <div id="plot"></div>
   </div>
 
-  <!-- BEGIN MARKING HERE -->
-  <script>
+  <div id="treeViz"></div>
+
+  <script type="module">
+    // BEGIN MARKING HERE ///////////////////////////////////////////////////////////////////////////////////////
     GP();
 
     function GP(options = {}) {
@@ -25,12 +33,11 @@
           { operator: 'NOT', numArgs: 1 },
           { operator: 'IF', numArgs: 3 },
         ],
-        maxIterations = 50,
-        maxDepth = 10,
-        populationSize = 50,
-        fitnessFunction = () => { },
-        leafNodeProbability = 0.2,
-        mutationProbability = 0.5, // crossover probability is 1 - mutationProbability
+        maxIterations = 3, //50
+        maxDepth = 5,
+        populationSize = 75,
+        leafNodeProbability = 0.1,
+        mutationProbability = 0.1, // crossover probability is 1 - mutationProbability
       } = options; // parse options & assign defaults
 
       let plotData = [];
@@ -87,7 +94,7 @@
       let trace = {
         x: plotData.map(d => d.x),
         y: plotData.map(d => d.y),
-        type: 'scatter'
+        type: 'lines+markers'
       };
 
       let layout = {
@@ -102,11 +109,19 @@
 
       Plotly.newPlot('plot', [trace], layout);
 
+      const plotContainer = $('#plot')[0]
+      plotContainer.on('plotly_click', (data) => {
+        const iteration = data.points[0].pointIndex;
+        let treeVisualization = treeToHtml(plotData[iteration].bestSolution)
+
+        $('#treeViz').html(treeVisualization);
+      });
+
       ////////////////////////////////////////////////////////////////////////////
       ////////// Genetic Programming Helpers /////////////////////////////////////
       ////////////////////////////////////////////////////////////////////////////
       function randomTree(node, depth) {
-        if (Math.random() < leafNodeProbability || depth >= maxDepth) {
+        if (Math.random() < leafNodeProbability || depth >= maxDepth - 1) { // use Leaf Node
           const i = randomIntBetween(0, terminalSet.length - 1); // Random Index
 
           node.value = terminalSet[i];
@@ -239,6 +254,8 @@
         return `(${treeToProgram(tree.children[0])} || ${treeToProgram(tree.children[1])})`;
       } else if (tree.value === 'NOT') {
         return `(!${treeToProgram(tree.children[0])})`;
+      } else {
+        throw 'Unexpected Tree Format - Passed tree may contain unexpected operators. Ensure the logic of this calling function matches the operatorSet'
       }
     }
 
@@ -326,14 +343,66 @@
 
       BFS(tree, 0);
 
-      Object.keys(levels).sort().forEach((level) => {
-        console.log(levels[level].join(' '))
-      })
+      console.log(levels);
     }
 
+    function treeToHtml(tree) {
+      let selfStr = `<div class='value' style="display:flex; justify-content:center; align-items: center; border: 2px solid black; border-radius:50%; width: 50px; height:50px; padding:4px;">${tree.value}</div>`;
 
+      let childrenString = tree.children.map((child, index, children) => {
+        let lineDirection;
+        switch (whichChild(index, children.length)) {
+          case 'left':
+            lineDirection = 'to top left';
+            break;
+          case 'middle':
+            lineDirection = 'to right';
+            break;
+          case 'right':
+            lineDirection = 'to top right';
+            break;
+        }
+
+        let inheritanceLine = `<div class="inheritance-line" style="width: 25px; height: 25px; background: linear-gradient(${lineDirection}, #fff calc(50% - 1px), #aaa, #fff calc(50% + 1px) );"></div>`
+        let subtree = treeToHtml(child);
+        return `
+          <div class="child" style="border:1px solid black; margin:2px; display:flex; flex-direction:column; align-items:center; flex-grow:1; flex-basis:0">
+            ${inheritanceLine}
+            ${subtree}
+          </div>
+        `
+      }).join('');
+
+      return `
+        <div class="tree" style="margin:16px; display:flex; flex-direction:column; align-items:center;">
+          ${selfStr}
+          <div class="child-row" style="display:flex; flex-direction:row; justify-content:space-evenly;">
+            ${childrenString}
+          </div>
+        </div>
+      `
+    }
+
+    function whichChild(childIndex, totalChildren) {
+      let mapping = {};
+
+      if (totalChildren == 3) {
+        mapping = { 0: 'left', 1: 'middle', 2: 'right' }
+      } else if (totalChildren == 2) {
+        mapping = { 0: 'left', 1: 'right' }
+      } else if (totalChildren == 1) {
+        mapping = { 0: 'middle' }
+      } else {
+        throw 'Unexpected Tree Dimensions - N-ary tree with max of 3 children expected'
+      }
+
+      return mapping[childIndex];
+    }
+    // END MARKING HERE ///////////////////////////////////////////////////////////////////////////////////////
+
+    $('#loader').css('display', 'none');
   </script>
-  <!-- END MARKING HERE -->
+
 </body>
 
 </html>
