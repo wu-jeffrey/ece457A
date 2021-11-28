@@ -108,3 +108,6 @@ The W parameter is inertia, which describes a particle's resistance to change. A
 
 
 # Q3
+I made it so that
+
+lol '(d0 || a1)' had a 95% fitness

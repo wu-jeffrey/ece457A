@@ -1,0 +1,339 @@
+<html>
+
+<head>
+  <title>(F2021) ECE 457A: A4Q3 - Solving the 6-multiplexor problem using Genetic Programming </title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdn.plot.ly/plotly-2.6.3.min.js"></script>
+</head>
+
+<body>
+  <div id="app" style="display: flex; justify-content: space-evenly;">
+    <div id="plot"></div>
+  </div>
+
+  <!-- BEGIN MARKING HERE -->
+  <script>
+    GP();
+
+    function GP(options = {}) {
+      const {
+        terminalSet = ['a1', 'a0', 'd3', 'd2', 'd1', 'd0'],
+        functionSet = [
+          { operator: 'AND', numArgs: 2 },
+          { operator: 'OR', numArgs: 2 },
+          { operator: 'NOT', numArgs: 1 },
+          { operator: 'IF', numArgs: 3 },
+        ],
+        maxIterations = 50,
+        maxDepth = 10,
+        populationSize = 50,
+        fitnessFunction = () => { },
+        leafNodeProbability = 0.2,
+        mutationProbability = 0.5, // crossover probability is 1 - mutationProbability
+      } = options; // parse options & assign defaults
+
+      let plotData = [];
+
+      // randomly generate initial population of parse trees
+      let population = [];
+      for (let i = 0; i < populationSize; i++) {
+        population.push(randomTree({}, 0));
+      }
+
+      // Genetic Algorithm!
+      for (let i = 0; i < maxIterations; i++) {
+        // parent selection
+        const selected = selectParents(population);
+
+        // generate children
+        let children = [];
+        for (let j = 0; j < selected.length;) {
+          if (Math.random() > mutationProbability && j < selected.length - 1) {
+            children.push(
+              ...crossover(selected[j], selected[j + 1])
+            );
+
+            j += 2;
+          } else {
+            children.push(
+              mutate(selected[j])
+            );
+
+            j += 1;
+          }
+        }
+        // store variables for plotting
+        const fitnesses = population.map(p => evaluateFitness(p));
+        const bestFitness = _.max(fitnesses);
+        const bestSolutionIndex = fitnesses.indexOf(bestFitness);
+
+        plotData.push({
+          x: i + 1, // index shift
+          y: bestFitness,
+          bestSolution: population[bestSolutionIndex],
+          bestSolutionProgram: treeToProgram(population[bestSolutionIndex]),
+          fitnesses: fitnesses,
+          population: population,
+        })
+
+        console.log(plotData[i]);
+
+        // generational replacement
+        population = children;
+      } // Genetic Algorithm end
+
+      // Plotting
+      let trace = {
+        x: plotData.map(d => d.x),
+        y: plotData.map(d => d.y),
+        type: 'scatter'
+      };
+
+      let layout = {
+        title: 'Fitness vs Iterations',
+        xaxis: {
+          title: 'Iteration'
+        },
+        yaxis: {
+          title: 'Fitness [0,1]'
+        }
+      };
+
+      Plotly.newPlot('plot', [trace], layout);
+
+      ////////////////////////////////////////////////////////////////////////////
+      ////////// Genetic Programming Helpers /////////////////////////////////////
+      ////////////////////////////////////////////////////////////////////////////
+      function randomTree(node, depth) {
+        if (Math.random() < leafNodeProbability || depth >= maxDepth) {
+          const i = randomIntBetween(0, terminalSet.length - 1); // Random Index
+
+          node.value = terminalSet[i];
+          node.children = [];
+        } else {
+          const i = randomIntBetween(0, functionSet.length - 1); // Random Index
+          const fn = functionSet[i];
+
+          node.value = fn.operator;
+          node.children = [];
+          for (let i = 0; i < fn.numArgs; i++) {
+
+            node.children.push(randomTree({}, depth + 1));
+          }
+        }
+
+        return node;
+      }
+
+      function selectParents(population) {
+        // Fitness Proportionate Selection (Roulette Wheel)
+        const fitnesses = population.map(p => evaluateFitness(p));
+        const sumFitnesses = _.sum(fitnesses);
+        const probabilities = fitnesses.map(fitness => fitness / sumFitnesses);
+
+        // Create flattened roulette wheel
+        // It is an ascending array with values ranging from 0 (exlusive) to 1 (inclusive)
+        let flattenedRouletteWheel = [];
+        probabilities.reduce((sum, probability) => {
+          const upperBound = sum + probability;
+          flattenedRouletteWheel.push(upperBound);
+          return upperBound;
+        })
+
+        // Play Roulette
+        let selectedPopulation = [];
+        for (let i = 0; i < population.length; i++) {
+          const rand = Math.random(); // pseudoRandom number b/w 0 and 1
+
+          // .some() iterates over the array and short circuits the loop when callback evaluates true
+          flattenedRouletteWheel.some((upperBound, index) => {
+            const withinBucket = rand < upperBound;
+            if (withinBucket) {
+              selectedPopulation.push(population[index]);
+              return true;
+            } else {
+              return false;
+            }
+          })
+
+        }
+
+        return selectedPopulation;
+      }
+
+      function crossover(T1, T2) {
+        let clone1 = _.cloneDeep(T1);
+        let clone2 = _.cloneDeep(T2);
+
+        let rand1 = pickRandomNode(clone1);
+        let rand2 = pickRandomNode(clone2);
+
+        swapNodes(rand1, rand2);
+
+        return [clone1, clone2];
+      }
+
+      function mutate(tree) {
+        let clone = _.cloneDeep(tree);
+
+        let rand = pickRandomNode(clone);
+
+        const subtreeStartingDepth = getDepth(clone);
+        rand = randomTree({}, subtreeStartingDepth);
+
+        return clone;
+      }
+    } // end of fn GP()
+
+    ////////////////////////////////////////////////////////////////////////////
+    ////////// Question Specific Helpers ///////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////
+    function evaluateFitness(tree) {
+      let correctAnswers = 0;
+
+      for (let i = 0; i < 64; i++) {
+        // Question specifically asked for a fraction of all 64 cases
+        let a1 = (i >> 0) & 1;
+        let a0 = (i >> 1) & 1;
+        let d3 = (i >> 2) & 1;
+        let d2 = (i >> 3) & 1;
+        let d1 = (i >> 4) & 1;
+        let d0 = (i >> 5) & 1;
+
+        // Generate the program & sub in variables to string
+        let programString = treeToProgram(tree)
+          .replace('a1', a1)
+          .replace('a0', a0)
+          .replace('d0', d0)
+          .replace('d1', d1)
+          .replace('d2', d2)
+          .replace('d3', d3);
+
+        const actual = eval(programString); // I solemnly swear to never use `eval()` in production code
+        const expected = idealProgram(a1, a0, d3, d2, d1, d0);
+
+        if (actual == expected) {
+          correctAnswers++;
+        }
+      }
+
+      return correctAnswers / 64;
+    }
+
+    function idealProgram(a1, a0, d3, d2, d1, d0) {
+      const binStr = `${a1}${a0}`;
+      const index = parseInt(binStr, 2);
+
+      return eval('d' + index); // I solemnly swear to never use `eval()` in production code
+    }
+
+    function treeToProgram(tree) {
+      if (tree.children.length == 0) {
+        return tree.value;
+      } else if (tree.value === 'IF') {
+        return `(${treeToProgram(tree.children[0])} ? ${treeToProgram(tree.children[1])} : ${treeToProgram(tree.children[2])})`;
+      } else if (tree.value === 'AND') {
+        return `(${treeToProgram(tree.children[0])} && ${treeToProgram(tree.children[1])})`;
+      } else if (tree.value === 'OR') {
+        return `(${treeToProgram(tree.children[0])} || ${treeToProgram(tree.children[1])})`;
+      } else if (tree.value === 'NOT') {
+        return `(!${treeToProgram(tree.children[0])})`;
+      }
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+    ////////// Tree Helpers ////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////
+    function getDepth(tree) { // Our case has trees with max of 3 children
+      function BFS(tree, depth) {
+        if (isLeafNode(tree)) {
+          return depth;
+        } else {
+          return Math.max(
+            ...tree.children.map((c) => BFS(c, depth + 1))
+          );
+        }
+      }
+
+      return BFS(tree, 0);
+    }
+
+    function isLeafNode(node) {
+      return node.children.length === 0;
+    }
+
+    function preOrderTraversal(tree) {
+      let traversal = [];
+
+      function recurse(node) {
+        traversal.push(node);
+
+        node.children.forEach((child) => {
+          recurse(child);
+        })
+      }
+
+      recurse(tree);
+
+      return traversal;
+    }
+
+    function pickRandomNode(tree) {
+      const preOrder = preOrderTraversal(tree);
+      const index = randomIntBetween(0, preOrder.length - 1);
+
+      return preOrder[index];
+    }
+
+    function swapNodes(N1, N2) {
+      // JS is weird, it will "pass by copy of a reference". See this: https://stackoverflow.com/a/17382443
+
+      const clone1 = _.cloneDeep(N1);
+      const clone2 = _.cloneDeep(N2);
+
+      N1.value = clone2.value;
+      N1.children = clone2.children;
+
+      N2.value = clone1.value;
+      N2.children = clone1.children;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+    ////////// General Helpers /////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////
+    function randomIntBetween(min, max) {
+      return Math.floor(Math.random() * (max - min + 1) + min);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+    ////////// DOM/Display Helpers /////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////
+    function printTreeUgly(tree) { // Used for primitive debugging
+      let levels = {};
+
+      function BFS(node, depth) {
+        if (!levels[depth]) {
+          levels[depth] = [node.value];
+        } else {
+          levels[depth].push(node.value);
+        }
+
+        node.children.forEach((child) => {
+          BFS(child, depth + 1);
+        })
+      }
+
+      BFS(tree, 0);
+
+      Object.keys(levels).sort().forEach((level) => {
+        console.log(levels[level].join(' '))
+      })
+    }
+
+
+  </script>
+  <!-- END MARKING HERE -->
+</body>
+
+</html>
