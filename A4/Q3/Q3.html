@@ -42,9 +42,9 @@
           { operator: 'NOT', numArgs: 1 },
           { operator: 'IF', numArgs: 3 },
         ],
-        maxIterations = 3, //50
+        maxIterations = 500,
         maxDepth = 5,
-        populationSize = 75,
+        populationSize = 20,
         leafNodeProbability = 0.1,
         mutationProbability = 0.1, // crossover probability is 1 - mutationProbability
       } = options; // parse options & assign defaults

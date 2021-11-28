@@ -107,7 +107,45 @@ The W parameter is inertia, which describes a particle's resistance to change. A
 ---
 
 
-# Q3
-I made it so that
+## Q3
+The implementation of Q3 is designed to be run standalone in a web browser. Simply open the `Q3.html` file in a browser with Javascript enabled (preferrably Chrome). The code runs on pageload so to run again with a different randomly generated initial population, simply refresh the page. To view a tree representation of the best program in any iteration, click on the corresponding data point on the plot. Note that you may to zoom out if the tree is too large. To change the parameters, the code will have to be modified directly. Unfortunately due to time constraints and the effort-to-mark ratio for this assignment, no UI was developed to change the GP parameters.
 
-lol '(d0 || a1)' had a 95% fitness
+The logic pertaining to Genetic Programming is sandwiched between two comments, `BEGIN MARKING HERE` and `END MARKING HERE`.
+### Part A: Parameter Selection
+
+The following parameters were found using trial, error and some intuition.
+```
+  maxIterations = 15
+  maxDepth = 5
+  populationSize = 200
+  leafNodeProbability = 0.1
+  mutationProbability = 0.1
+```
+
+- `maxIterations`: the number of iterations / generations that GP is run.
+- `maxDepth`: max depth for random tree generations. Will be ignored for subtree swaps.
+- `populationSize`: number of programs/trees/candidate solutions in a generation. Stays constant accross generations.
+- `leafNodeProbability`: the probability of a leaf node being chosen when randomly generating trees and the max depth has not been reached.
+- `mutationProbability`: the probability of a mutation occuring instead of crossover.
+
+#### Some observations
+Note that the final best fitness is not necessarily the best fitness ever seen. This is because the survivor selection used was generational replacement with no elitism. As such, there is no guarantee that the solution fitness will be monotonically increasing.
+
+A relatively low iterations, `15` was used as it was found that sometimes the values would converge to a local optimum with a single-node-tree, only the term `d3` would yield a fitness value of `0.625`. This single-node-tree would quickly take over a large proportion of the population, at which point crossover between two of these trees would create identical offspring. Mutation being explotative did not serve to escape this local optimum empirically.
+
+`leafNodeProbability` was also lowered in order to prevent the early generation of these single-node-trees.
+`mutationProbability` was decreased in order to increase exploration using the subtree swapping crossover. Decreasing mutation probability increases crossover probability since in GP, mutation and crossover are mutually exclusive.
+### PART B,C,D: Results
+Several runs were made, the UI created is able to show the plot of fitness vs iterations (Part B) and a tree representation of the finalist program (Part D). The fitness of the finalist (Part C) will be shown in the title.
+
+#### Run 1: `Fitness: 0.75`
+
+<img src="./Q3/p1.png" alt="Run 1" />
+
+#### Run 2: `Fitness: 0.75`
+
+<img src="./Q3/p2.png" alt="Run 2" />
+
+#### Run 3: `Fitness: 0.765625`
+
+<img src="./Q3/p3.png" alt="Run 3" />
