@@ -8,6 +8,9 @@
 </head>
 
 <body style="font-family: Arial, Helvetica, sans-serif;">
+  <div class="hide-when-loading" style="display: none;">
+    <h3>(F2021) ECE 457A: A4Q3 - Solving the 6-multiplexor problem using Genetic Programming</h3>
+  </div>
 
 
   <div id="loader" style="height:100%; width:100%; display: flex; justify-content: center; align-items: center;">
@@ -16,6 +19,12 @@
 
   <div id="app" style="display: flex; justify-content: space-evenly;">
     <div id="plot"></div>
+  </div>
+
+  <div class="hide-when-loading" style="display: none;">
+    <h3>Tree Visualizer</h3>
+    <p>Click on a marker/point on the plot to see a tree of the best program on that iteration.</p>
+    <p>You may need to zoom out a bit if the tree is too wide!</p>
   </div>
 
   <div id="treeViz"></div>
@@ -401,6 +410,7 @@
     // END MARKING HERE ///////////////////////////////////////////////////////////////////////////////////////
 
     $('#loader').css('display', 'none');
+    $('.hide-when-loading').css('display', 'block');
   </script>
 
 </body>
